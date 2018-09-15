@@ -31,6 +31,7 @@ const encodeString = _str => {
 };
 
 const createString = (m, s) => {
+  // encoding matches how AS encodes strs (see utf8ToString)
   const ptr = index.malloc(s.length * 2 + 4);
   memoryBuffer.set(encodeString(s), ptr);
 
@@ -41,7 +42,6 @@ const logString = (m, ptr) => console.log(utf8ToString(m, ptr));
 
 const memoryBuffer = new Uint8Array(index.memory.buffer);
 const ptr = createString(memoryBuffer, "Thomas Pic");
-logString(memoryBuffer, ptr);
-logString(new Uint8Array(index.memory.buffer), index.myName());
+logString(memoryBuffer, index.read(ptr));
 
 console.log("done");
