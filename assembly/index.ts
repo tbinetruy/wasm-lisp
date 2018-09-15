@@ -23,3 +23,15 @@ export function myName(): string {
   const lastName = " Binetruy-Pic";
   return name.concat(lastName).concat(" is my name ;)");
 }
+
+export function malloc(size: usize): usize {
+  return memory.allocate(size);
+}
+
+export function mfree(ptr: usize): void {
+  memory.free(ptr);
+}
+
+export function read(ptr: usize): usize {
+  return ptr;
+}

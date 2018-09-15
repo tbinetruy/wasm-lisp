@@ -5,9 +5,6 @@ const compiled = new WebAssembly.Module(
 
 const imports = {
   env: {
-    sayHello() {
-      console.log("Hello from WebAssembly!");
-    },
     abort(msg, file, line, column) {
       console.error("abort called at main.ts:" + line + ":" + column);
     },
@@ -21,8 +18,5 @@ const imports = {
     },
   },
 };
-// Object.defineProperty(module, "exports", {
-//   get: () => new WebAssembly.Instance(compiled, imports).exports,
-// });
 
 module.exports = new WebAssembly.Instance(compiled, imports).exports;

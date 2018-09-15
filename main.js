@@ -1,10 +1,9 @@
 var index = require("./index.js");
-console.log(index.add(1, 2));
 
-function utf8ToString(h, p) {
+function utf8ToString(heap, ptr) {
   let s = ""; // initial new string
-  let l = h[p]; // get encoded string length (first byte)
-  p += 4; // skip the next 32 bytes to bring pointer to beginning of string
+  let l = heap[ptr]; // get encoded string length (first byte)
+  ptr += 4; // skip the next 32 bytes to bring pointer to beginning of string
   /*
       Iterate through string with counter starting at p.
       Because AS encodes string in UTF16 rather than UTF8, each string character
@@ -14,12 +13,35 @@ function utf8ToString(h, p) {
       - p is a pointer to the first character of our string
       - l is the length of our string, but needs to be timed by 2 to account for \00 between each chars
     */
-  for (let i = p; i < p + l * 2; i++) {
-    s += String.fromCharCode(h[i]);
+  for (let i = ptr; i < ptr + l * 2; i++) {
+    s += String.fromCharCode(heap[i]);
     i++; // increment counter by 1 a second time during the iteration to skip over \00 chars
   }
   return s;
 }
 
-console.log(utf8ToString(new Uint8Array(index.memory.buffer), index.myName()));
+const encodeString = _str => {
+  const str = [_str.length, 0, 0, 0];
+  for (let i = 0; i < _str.length; i++) {
+    str.push(_str.charCodeAt(i));
+    str.push(0);
+  }
+  str.pop();
+  return str;
+};
+
+const createString = (m, s) => {
+  const ptr = index.malloc(s.length * 2 + 4);
+  memoryBuffer.set(encodeString(s), ptr);
+
+  return ptr;
+};
+
+const logString = (m, ptr) => console.log(utf8ToString(m, ptr));
+
+const memoryBuffer = new Uint8Array(index.memory.buffer);
+const ptr = createString(memoryBuffer, "Thomas Pic");
+logString(memoryBuffer, ptr);
+logString(new Uint8Array(index.memory.buffer), index.myName());
+
 console.log("done");
