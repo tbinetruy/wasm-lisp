@@ -1,5 +1,5 @@
-import * as index from "../assembly/index";
+import * as index from "../assembly/std";
 
 test("index", () => {
-  expect(index.add(1, 2)).toBe(3);
+  expect(index.trim("foo bar")).toEqual(["foo", "bar"]);
 });

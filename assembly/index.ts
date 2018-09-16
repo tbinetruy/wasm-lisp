@@ -1,4 +1,6 @@
 import "allocator/tlsf";
+import * as std from "./std";
+
 declare function sayHello(): void;
 
 declare namespace console {
@@ -33,16 +35,9 @@ export function mfree(ptr: usize): void {
 }
 
 export function read(ptr: usize): string {
-  let l: u8 = load<u8>(ptr);
-  let s: string = "";
+  let s = std.readString(ptr);
+  let ss = std.trim(s);
+  let sss = ss[1];
 
-  for (let i = ptr + 4; i < ptr + l * 2 + 4; i++) {
-    let c = load<u8>(i);
-    s += String.fromCharCode(c);
-    i++;
-  }
-
-  s = s.concat("yay");
-
-  return s;
+  return s.concat(sss);
 }
