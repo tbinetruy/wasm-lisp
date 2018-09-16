@@ -1,5 +1,18 @@
-export function trim(s: string): Array<string> {
-  return ["foo", "bar"];
+export function split(s: string): Array<string> {
+  let l = s.length;
+  const a: Array<string> = [];
+  let start = 0;
+  let end = 0;
+  for (let i = 0; i < l; i++) {
+    let c = s.charCodeAt(i);
+    if (c === 32) {
+      a.push(s.substring(start, end));
+      start = end + 1;
+    }
+    end += 1;
+  }
+  a.push(s.substring(start, end));
+  return a;
 }
 
 export function readString(ptr: usize): string {

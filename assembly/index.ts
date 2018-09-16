@@ -36,8 +36,8 @@ export function mfree(ptr: usize): void {
 
 export function read(ptr: usize): string {
   let s = std.readString(ptr);
-  let ss = std.trim(s);
+  let ss = std.split(s);
   let sss = ss[1];
 
-  return s.concat(sss);
+  return sss;
 }
