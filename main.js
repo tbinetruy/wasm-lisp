@@ -1,4 +1,4 @@
-var index = require("./index.js");
+const app = require("./index.js");
 
 function utf8ToString(heap, ptr) {
   let s = ""; // initial new string
@@ -32,7 +32,7 @@ const encodeString = _str => {
 
 const createString = (m, s) => {
   // encoding matches how AS encodes strs (see utf8ToString)
-  const ptr = index.malloc(s.length * 2 + 4);
+  const ptr = app.malloc(s.length * 2 + 4);
   memoryBuffer.set(encodeString(s), ptr);
 
   return ptr;
@@ -40,8 +40,9 @@ const createString = (m, s) => {
 
 const logString = (m, ptr) => console.log(utf8ToString(m, ptr));
 
-const memoryBuffer = new Uint8Array(index.memory.buffer);
-const ptr = createString(memoryBuffer, "Thomas Pic");
-logString(memoryBuffer, index.read(ptr));
+const memoryBuffer = new Uint8Array(app.memory.buffer);
+const ptr = createString(memoryBuffer, "* 1 2 3 4 5");
+// logString(memoryBuffer, app.read(ptr));
+console.log("app result => ", app.read(ptr));
 
 console.log("done");

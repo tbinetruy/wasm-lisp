@@ -1,5 +1,6 @@
 import "allocator/tlsf";
 import * as std from "./std";
+import * as lisp from "./lisp";
 
 declare function sayHello(): void;
 
@@ -34,10 +35,8 @@ export function mfree(ptr: usize): void {
   memory.free(ptr);
 }
 
-export function read(ptr: usize): string {
+export function read(ptr: usize): number {
   let s = std.readString(ptr);
-  let ss = std.split(s);
-  let sss = ss[1];
-
-  return sss;
+  let str = std.split(s);
+  return lisp.evalE(str);
 }
